@@ -1,0 +1,76 @@
+.btn-primary {
+    color: #fff;
+    background-color:#379c02;
+    border-color: transparent;
+}
+
+
+a:active, a:focus, a:hover {
+    color:#379c02;
+    text-decoration: underline;
+}
+
+
+.marg-top {
+    margin-top: 0px;
+}
+
+.steps {
+    height: 77px;
+    border-bottom: 2px solid #e6e6e6;
+    position: relative;
+}
+
+.steps ol li {
+    display: inline;
+    
+    
+    padding-left: 0px;
+    margin-left: 152px;
+    line-height: 111px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #999;
+}
+
+.steps ol li.active {
+    color: #3e3e3e;
+    border-bottom: 2px solid #379c02;
+}
+
+
+
+
+@media screen and (max-width: 500px) {
+
+    .steps {
+        border-bottom: 0px solid #e6e6e6;
+    }
+
+    .steps ol li.active {
+        border-bottom: 0px solid #379c02;
+    }
+
+    .steps ol li {
+        display: inherit;
+        line-height: 35px;
+        margin-left: 83px;
+    }
+
+    .btn-next {
+        width: 50% !important;
+    }
+
+}
+
+.numberCircle {
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    padding: 2px;
+    background: #fff;
+    border: 2px solid #379c02;
+    color: #666;
+    text-align: center;
+    font: 30px Arial, sans-serif;
+}

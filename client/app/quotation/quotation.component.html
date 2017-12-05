@@ -1,0 +1,298 @@
+<div class="wrapper wrapper-content">
+<div class="ibox-content">
+  <form [formGroup]="form">
+
+
+    <div class="row">
+
+      <div class="col-md-6">
+        <P class="big-title bold font-color">Complete Your RFQ</P>
+        <P class="bold font-color">The more specific your information, the more accurately we can match your request to the right suppliers</P>
+      </div>
+
+      <div class="col-md-3">
+        <P class="big-title bold font-color">Completeness of Information</P>
+      </div>
+      <div class="col-md-2">
+        <circle-progress 
+            [percent]="85" 
+            [radius]="100" 
+        ></circle-progress>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <ng-select [options]="products" [multiple]="false" formControlName="myProduct" class="select">
+        </ng-select>
+      </div>
+      <div class="col-md-5 bold font-color feedback">
+        Please enter the product name.
+      </div>
+
+    </div>
+
+    <br/>
+
+    <div class="row">
+      <div class="col-md-3"><input type="text" placeholder="Enter Quantity" class="form-control" formControlName="quantity"></div>
+      <div class="col-md-3">
+        <select class="form-control" formControlName="pieceId" #selectElem (change)="setNewUser(selectElem.value)">
+                    <option *ngFor="let piece of pieces" [value]="piece.id">
+                    {{piece.Name}}
+                    </option>
+                </select>
+      </div>
+        <div class="col-md-5 bold font-color feedback">
+        Please enter a Quantity and select a Unit.
+      </div>      
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="group">
+          <textarea placeholder="Product Detailed Specifications" class="form-control control-detail ui2-textfield ui2-textfield-large text"
+            minlength="20" maxlength="" style="background: transparent; position: relative; outline: 0px;background-color: #fff;">Dear Sir/Madam,
+I'm looking for products with the following specifications:          
+            </textarea>   
+        </div>
+      </div>
+     <div class="col-md-5 bold font-color feedback">
+     Please let suppliers know your detailed requirements. You may include: color, size, material, grade/standard, etc
+    </div>
+
+    </div>
+
+
+<br/>
+
+  
+        <div class="row">
+
+            <div class="col-md-6">
+            
+               <input class="font-size: 20px;overflow: visible;line-height: normal;" type="file" ng2FileSelect [uploader]="uploader" multiple  />
+            
+            </div>
+            
+    <div class="col-md-5 bold font-color feedback">
+        Attachments like product pictures/images would improve your RFQ.
+      </div> 
+    </div>
+            <br/>
+            
+            <div class="row"> 
+                       <!-- <h3>Uploaded Files</h3> -->
+            <!-- <p>Queue length: {{ uploader?.queue?.length }}</p> -->
+            <div class="col-md-6">  
+            <table class="table">
+                <thead>
+                <tr>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of uploader.queue">
+                    <td><strong>{{ item?.file?.name }}</strong></td>
+                    <td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                    <td *ngIf="uploader.isHTML5">
+                        <div class="progress" style="margin-bottom: 0;">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                        <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                        <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                    </td>
+                    <td nowrap>
+                        <button type="button" class="btn btn-primary btn-xs"
+                                (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                            <span class="glyphicon glyphicon-upload"></span> Upload
+                        </button>
+                        <button type="button" class="btn btn-warning btn-xs"
+                                (click)="item.cancel()" [disabled]="!item.isUploading">
+                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                        </button>
+                        <button type="button" class="btn btn-danger btn-xs"
+                                (click)="item.remove()">
+                            <span class="glyphicon glyphicon-trash"></span> Remove
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+            </div> 
+<div class="Other-Req">
+
+    <p class="title bold font-color">Other Requirements <i (click)='toggleDescrition()' [ngClass]="showDescription ==false ? 'fa fa-angle-down' : 'fa fa-angle-up'" ></i></p>
+    <p class="describe font-color" *ngIf="!showDescription">Describe about your perferred unit price, destination port and the payment methods<br/> Include unit price, payment terms, etc.</p>
+    <p class="describe font-color" *ngIf="showDescription">Include unit price, payment terms, etc.</p>    
+    <div class="showhideDiv animated fadeInDown" *ngIf="showDescription">
+    <div class="row">
+
+        <div class="col-md-2">
+        <select class="form-control" formControlName="fobId" #selectElem (change)="setNewFOB(selectElem.value)">
+                    <option *ngFor="let fob of fobs" [value]="fob.id">
+                    {{fob.Name}}
+                    </option>
+        </select>
+      </div>
+
+           <div class="col-md-2">
+               <input type="text" class="form-control" />
+      </div>   
+            <div class="col-md-2">
+        <select class="form-control" formControlName="currencyId" #selectElem (change)="setNewCurrency(selectElem.value)">
+                    <option *ngFor="let currency of currencies" [value]="currency.id">
+                    {{currency.Name}}
+                    </option>
+        </select>
+      </div>
+        </div>
+<br/>
+        <div class="row"> 
+            <div class="col-md-2">
+                  <input type="text" class="form-control" placeholder="Destination Port" />
+            </div>
+        </div>
+<br/>
+        <div class="row"> 
+            <div class="col-md-6">
+            <select class="form-control" formControlName="ttId" #selectElem (change)="setTT(selectElem.value)">
+                    <option *ngFor="let tt of tts" [value]="tt.id">
+                    {{tt.Name}}
+                    </option>
+            </select>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<br/>
+<div class="value-added">
+    <p class="title bold font-color">Value Added Services <i class="fa fa-question-circle-o"></i></p>
+    <div class="row">
+        <div class="col-md-5">
+            <p class="describe font-color">Choose service below for requests that need quicker or more quotations from suppliers. Paid RFQ will receive priority. <a href="#">Learn More ></a><br>I Agree with the <a href="#">Terms and Condition</a></p>
+        </div>
+    </div>
+</div>
+
+<br><br>
+
+<div class="row"> 
+        <div class="col-md-6">
+            <div class="custome-checkbox">              
+            <label class="custome-checkbox-label">
+            <!-- <input class="custome-checkbox-input" type="checkbox"> -->
+            <div class="custome-checkbox-urgent">
+                <i class="ui2-icon custome-checkbox-urgent-clock fa fa-clock-o"></i>
+                <span class="urgent-title">Urgent Request</span>
+            </div>
+            </label>
+
+            <div class="description">
+                <span class="price">
+                    <i class="off">US $9.99</i>
+                    <i class="origin">US $29.99</i>
+                </span>
+                <span class="upto">Upto 10x quicker to find right supplier</span>
+            </div>
+
+    <div class="DescCheckbox checkbox">
+          <label>
+              <input type="checkbox" class="form-control">
+              <span class="checkbox-replacement-helper"><span aria-hidden="true" class="glyphicon air-icon-check"></span></span>
+              </label>
+      </div>
+
+        </div>
+</div>
+</div>
+        <br>
+
+
+<div class="row"> 
+   <div class="col-md-6">
+        <div class="custome-checkbox">              
+                <label class="custome-checkbox-label">
+                <!-- <input class="custome-checkbox-input" type="checkbox"> -->
+                <div class="custome-checkbox-urgent">
+                    <i class="ui2-icon custome-checkbox-urgent-clock fa fa-envelope"></i>
+                    <span class="urgent-title">Extra Quotes</span>
+                </div>
+                </label>
+    
+                <div class="description">
+                    <span class="price">
+                        <i class="off">US $2.99</i>
+                        <i class="origin">US $9.99</i>
+                    </span>
+                    <span class="upto">Get upto 2x more quotes from supplier &nbsp;&nbsp;&nbsp;</span>
+                </div>
+
+    <div class="DescCheckbox checkbox">
+          <label>
+              <input type="checkbox" class="form-control">
+              <span class="checkbox-replacement-helper"><span aria-hidden="true" class="glyphicon air-icon-check"></span></span>
+              </label>
+      </div>    
+
+            </div>
+</div>
+</div>
+
+
+<div>
+    <p class="get-quotes">Total Service Fee : <span class="get-quotes total">US $12.98</span></p>
+</div>
+
+<br>
+
+<div class="two-check checkbox checkbox-success">
+
+    <div class="checkbox">
+          <label>
+              <input type="checkbox" class="form-control"/>
+              <span class="checkbox-replacement-helper"><span aria-hidden="true" class="glyphicon air-icon-check"></span></span>
+              I agree to share my <a href="#">Business Card</a> with quoted suppliers.</label>
+      </div>
+
+          <div class="checkbox">
+          <label>
+              <input type="checkbox" class="form-control"/>
+              <span class="checkbox-replacement-helper"><span aria-hidden="true" class="glyphicon air-icon-check"></span></span>
+              I have read, understood and agreed to abide by <a href="#"> Terms and Conditions Governing RFQ</a>.</label>
+      </div>
+</div>
+
+<br><br>
+
+<div class="row">
+    <div class="col-md-5">
+        <button type="submit" class="btn btn-primary block full-width m-b">Submit RFQ</button>
+    </div>
+</div>
+
+<br><br>
+
+<div class="title">
+    How to Get Quotes quickly ?
+</div>
+<br>
+<div class="get-quotes">
+    <i class="fa fa-file-text-o"> Submit RFQ</i> <i class="fa fa-long-arrow-right fa-lg"></i>
+     
+            <span class="fa-stack fa-1x">
+                    <i class="fa fa-square-o fa-stack-1x"></i>
+                    <span class="fa fa-stack-1x">vs</span>
+                  </span>Compare Quotes <i class="fa fa-long-arrow-right fa-lg"></i>
+
+    <i class="fa fa-pencil-square-o"> Contact Supplier</i>
+</div>
+
+
+  </form>
+</div>
+</div>
